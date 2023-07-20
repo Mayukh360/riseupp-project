@@ -3,6 +3,7 @@ import axios from "axios";
 import "tailwindcss/tailwind.css";
 import icon from "../asset/icon.png";
 import { AiOutlineSearch, AiOutlineLoading } from "react-icons/ai";
+import Tooltip from "@mui/material/Tooltip";
 
 const ACCESS_KEY = "iEKEPOqCiKe3USRs6LUqasUdI_H8iOiOU-ZuAm52G4I";
 const API_URL = "https://api.unsplash.com/search/photos";
@@ -27,6 +28,7 @@ export default function Gallery() {
       });
 
       setImages(response.data.results);
+      console.log(response.data.results.urls);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -116,17 +118,37 @@ export default function Gallery() {
           </div>
         )}
 
-        {isLoading &&   <AiOutlineLoading className="inline-block animate-spin w-8 h-8 mr-2" />}
+        {isLoading && (
+          <AiOutlineLoading className="inline-block animate-spin w-8 h-8 mr-2" />
+        )}
       </div>
       <div className="flex flex-wrap justify-center items-center">
         {images &&
           images.map((image) => (
-            <img
-              key={image.id}
-              src={image.urls.small}
-              alt={image.alt_description}
-              className="m-2 rounded w-80 h-60 object-cover"
-            />
+            <div key={image.id} className="m-4">
+              {/* Wrap the image with ReactTooltip */}
+              <Tooltip
+                title={
+                  <a
+                    href={image.urls.full}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {image.alt_description}
+                  </a>
+                }
+                placement="top"
+              >
+                {/* Add data-tip and data-for attributes to the image */}
+                <img
+                  src={image.urls.small}
+                  alt={image.alt_description}
+                  className="w-80 h-60 object-cover"
+                  data-tip
+                  data-for={`tooltip-${image.id}`}
+                />
+              </Tooltip>
+            </div>
           ))}
       </div>
     </div>
