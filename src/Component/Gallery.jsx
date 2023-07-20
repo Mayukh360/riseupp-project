@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "tailwindcss/tailwind.css";
-import icon from "../asset/icon.png";
+import icon from "../asset/icon.jpeg";
 import SearchBar from "./SearchBar";
 import ImageGallery from "./ImageGallery";
 

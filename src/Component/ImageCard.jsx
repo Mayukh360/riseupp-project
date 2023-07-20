@@ -2,9 +2,9 @@ import React from "react";
 import Tooltip from "@mui/material/Tooltip";
 
 const ImageCard = ({ image }) => {
-    //Here tooltip will show show the popup on hove
+    //Here tooltip will show show the popup on
   return (
-    <div className="m-8">
+    <div className="m-8 overflow-hidden rounded-lg shadow-md transition-transform transform-gpu hover:scale-110">
       <Tooltip
         title={
           <a href={image.urls.full} target="_blank" rel="noopener noreferrer">
