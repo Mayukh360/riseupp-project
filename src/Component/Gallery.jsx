@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const ACCESS_KEY = "iEKEPOqCiKe3USRs6LUqasUdI_H8iOiOU-ZuAm52G4I";
@@ -7,7 +7,7 @@ const API_URL = "https://api.unsplash.com/search/photos";
 export default function Gallery() {
   const [query, setQuery] = useState("");
   const [images, setImages] = useState([]);
-  const [submitted, setSubmitted] = useState(false); 
+  const [submitted, setSubmitted] = useState(''); 
 
   const fetchData = async () => {
     try {
@@ -16,14 +16,14 @@ export default function Gallery() {
           Authorization: `Client-ID ${ACCESS_KEY}`,
         },
         params: {
-          query: query,
+          query: submitted,
           orientation: "landscape",
         },
       });
 
      
       setImages(response.data.results);
-      setSubmitted(true); 
+      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -32,11 +32,30 @@ export default function Gallery() {
   const handleSearchInputChange = (event) => {
     setQuery(event.target.value);
   };
+  useEffect(()=>{
+    if(submitted){
+        fetchData();
+    }
+  },[submitted])
 
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent form submission
-    fetchData(); // Call the API when the form is submitted
+    setSubmitted(query)
+    setQuery('')
+    // fetchData(); // Call the API when the form is submitted
   };
+  const onMuntainClick=()=>{
+    setSubmitted('mountain');
+  }
+  const onFlowerClick=()=>{
+    setSubmitted('flower');
+  }
+  const onBeachesClick=()=>{
+    setSubmitted('beaches');
+  }
+  const onCitiesClick=()=>{
+    setSubmitted('cities');
+  }
 
   return (
     <div>
@@ -47,7 +66,13 @@ export default function Gallery() {
         </form>
       </div>
       <div>
-        {submitted && <h2>Heading: {query}</h2>}{" "}
+        <button onClick={onMuntainClick}>Mountain</button>
+        <button onClick={onFlowerClick}>Flowers</button>
+        <button onClick={onBeachesClick}>Beaches</button>
+        <button onClick={onCitiesClick}>Cities</button>
+      </div>
+      <div>
+        {submitted && <h2>Heading: {submitted}</h2>}{" "}
         
         {images &&
           images.map((image) => (
