@@ -10,8 +10,8 @@ export default function SearchBar({ onSubmit }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit(query);
-    setQuery("");
+    onSubmit(query); //Instead of taking data after every keystroke, it will take data after submitting the form
+    setQuery(""); //Resetting the input field
   };
 
   return (
