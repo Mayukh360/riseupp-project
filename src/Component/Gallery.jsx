@@ -8,8 +8,10 @@ export default function Gallery() {
   const [query, setQuery] = useState("");
   const [images, setImages] = useState([]);
   const [submitted, setSubmitted] = useState(''); 
+  const [isLoading, setLoading]=useState(false);
 
   const fetchData = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(API_URL, {
         headers: {
@@ -23,6 +25,7 @@ export default function Gallery() {
 
      
       setImages(response.data.results);
+      setLoading(false);
       
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -39,10 +42,10 @@ export default function Gallery() {
   },[submitted])
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault(); 
     setSubmitted(query)
     setQuery('')
-    // fetchData(); // Call the API when the form is submitted
+   
   };
   const onMuntainClick=()=>{
     setSubmitted('mountain');
@@ -72,7 +75,8 @@ export default function Gallery() {
         <button onClick={onCitiesClick}>Cities</button>
       </div>
       <div>
-        {submitted && <h2>Heading: {submitted}</h2>}{" "}
+        {submitted && !isLoading && <h2>Heading: {submitted}</h2>}{" "}
+        {isLoading && <p>Loading....</p>}
         
         {images &&
           images.map((image) => (
