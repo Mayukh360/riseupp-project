@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "tailwindcss/tailwind.css";
-import icon from '../asset/icon.png'
+import icon from "../asset/icon.png";
+import { AiOutlineSearch, AiOutlineLoading } from "react-icons/ai";
 
 const ACCESS_KEY = "iEKEPOqCiKe3USRs6LUqasUdI_H8iOiOU-ZuAm52G4I";
 const API_URL = "https://api.unsplash.com/search/photos";
@@ -47,24 +48,23 @@ export default function Gallery() {
     setQuery("");
   };
   const onMuntainClick = () => {
-    setSubmitted("mountain");
+    setSubmitted("Mountain");
   };
   const onFlowerClick = () => {
-    setSubmitted("flower");
+    setSubmitted("Flower");
   };
   const onBeachesClick = () => {
-    setSubmitted("beaches");
+    setSubmitted("Beaches");
   };
   const onCitiesClick = () => {
-    setSubmitted("cities");
+    setSubmitted("Cities");
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-200">
-        <img src={icon} className="h-20 w-20  mt-2 mb-2"/>
+    <div className="min-h-screen flex flex-col  items-center bg-gray-200">
+      <img src={icon} className="h-20 w-20  mt-2 mb-2" />
       <div className="mb-4">
         <form onSubmit={handleSubmit} className="flex items-center">
-        
           <input
             type="text"
             value={query}
@@ -77,6 +77,7 @@ export default function Gallery() {
             className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none"
           >
             Search
+            <AiOutlineSearch className="inline-block mr-2 ml-2" />
           </button>
         </form>
       </div>
@@ -107,19 +108,15 @@ export default function Gallery() {
         </button>
       </div>
       <div>
-      {submitted && !isLoading && (
-          <div className="absolute left-20 top-40">
-            <span className="text-left text-2xl font-bold mb-4 ml-4 text-orange-600 bg-green-100 px-8 py-2 border-2  border-black">
-              Heading: {submitted}
+        {submitted && !isLoading && (
+          <div className="mb-2 flex justify-start items-start">
+            <span className="text-left text-2xl font-bold  ml-4 text-orange-800 bg-green-100 px-8 py-2 border-2  border-black">
+              {submitted}
             </span>
           </div>
         )}
 
-       {isLoading && (
-          <div className="absolute left-20 top-36">
-            <p className="text-left mb-4 ml-4">Loading....</p>
-          </div>
-        )}
+        {isLoading &&   <AiOutlineLoading className="inline-block animate-spin w-8 h-8 mr-2" />}
       </div>
       <div className="flex flex-wrap justify-center items-center">
         {images &&
